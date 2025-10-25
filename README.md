@@ -1,0 +1,1 @@
+MGI v8 — From Scratch (Pro, visible photos, working music). Ready for Vercel.\n
