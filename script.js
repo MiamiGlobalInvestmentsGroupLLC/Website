@@ -1,36 +1,9 @@
-// Header shadow on scroll
-const header = document.getElementById('header');
-window.addEventListener('scroll', () => {
-  header.classList.toggle('scrolled', window.scrollY > 10);
-});
-
-// Mobile menu
-const menuBtn = document.getElementById('menu');
-const nav = document.getElementById('nav');
-menuBtn?.addEventListener('click', ()=>{
-  const open = nav.style.display === 'block';
-  nav.style.display = open ? 'none' : 'block';
-  menuBtn.setAttribute('aria-expanded', String(!open));
-});
-
-// Year
-document.querySelectorAll('#year').forEach(el=> el.textContent = new Date().getFullYear());
-
-// Reveal on scroll
-const observer = new IntersectionObserver((entries)=>{
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.classList.add('visible');
-      observer.unobserve(e.target);
-    }
-  });
-},{threshold:0.2});
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
-// Audio control
-const btn = document.getElementById('audioBtn');
-const bgm = document.getElementById('bgm');
-btn?.addEventListener('click', ()=>{
-  if (bgm.paused) { bgm.play(); btn.classList.add('playing'); }
-  else { bgm.pause(); btn.classList.remove('playing'); }
-});
+const MGI={email:'info@mgiglobalgroup.com',phoneDisplay:'+1 305-629-0491',phone:'13056290491',address:'2125 Biscayne Blvd, Ste 204 #21720, Miami, FL 33137, United States'};
+const wa=`https://wa.me/${MGI.phone}?text=${encodeURIComponent("Hi MGI, I'm interested in discussing outsourcing support for my company.")}`;
+function header(){return `<a class="skip-link" href="#main">Skip to content</a><header class="topbar ${location.pathname==='/'?'':'inner'}" id="topbar"><div class="container nav-wrap"><a class="brand" href="/"><img class="brand-mark" src="/assets/logo.svg" alt="MGI"><span>Miami Global Investments Group<small>Outsourcing & BPO</small></span></a><nav class="nav" id="nav" aria-label="Primary"><a href="/services/">Solutions</a><a href="/agency-partners/">Agency Partners</a><a href="/how-it-works/">How It Works</a><a href="/why-mgi/">Why MGI</a><a href="/about/">About</a><a href="/insights/">Insights</a><a href="/contact/">Contact</a><a class="btn btn-primary" data-track="booking_cta" href="/contact/#call">Book a Call <span class="arrow">→</span></a></nav><button class="menu-btn" id="menu" aria-label="Open navigation" aria-expanded="false">☰</button></div></header>`}
+function footer(){return `<footer class="footer"><div class="container"><div class="footer-grid"><div class="footer-brand"><a class="brand" href="/"><img class="brand-mark" src="/assets/logo.svg" alt="MGI"><span>MGI</span></a><p>Flexible operational capacity for agencies and growing businesses. Dedicated people, defined workflows and a pilot-to-scale model.</p><div class="footer-address"><strong>Florida Registered & Mailing Address</strong><br>2125 Biscayne Blvd, Ste 204 #21720<br>Miami, FL 33137<br>USA</div></div><div><h4>Solutions</h4><div class="footer-links"><a href="/services/white-label-sdr/">White-Label SDR</a><a href="/services/appointment-setting/">Appointment Setting</a><a href="/services/customer-support/">Customer Support</a><a href="/services/back-office/">Back Office</a></div></div><div><h4>Agency Partners</h4><div class="footer-links"><a href="/agency-partners/">White-Label Delivery</a><a href="/how-it-works/">How It Works</a><a href="/why-mgi/">Why MGI</a></div></div><div><h4>Company</h4><div class="footer-links"><a href="/about/">About</a><a href="/insights/">Insights</a><a href="/results/">Results</a><a href="/contact/">Contact</a></div></div><div><h4>Contact</h4><div class="footer-links"><a data-wa data-track="whatsapp_footer" href="${wa}" target="_blank" rel="noopener">WhatsApp</a><a data-track="phone_cta" href="tel:+${MGI.phone}">${MGI.phoneDisplay}</a><a href="mailto:${MGI.email}">${MGI.email}</a><span>Miami, Florida, USA</span><span>Serving U.S. · Canada · UK</span></div></div></div><div class="footer-bottom"><span>© <span data-year></span> Miami Global Investments Group LLC. All rights reserved.</span><span><a href="/privacy/">Privacy Policy</a> · <a href="/terms/">Terms of Use</a></span></div></div></footer><a class="wa-fab once" data-wa data-track="whatsapp_floating" href="${wa}" target="_blank" rel="noopener" aria-label="Chat with MGI on WhatsApp">W</a>`}
+function track(action){window.dataLayer=window.dataLayer||[];window.dataLayer.push({event:'mgi_cta',action,path:location.pathname})}
+function init(){document.querySelector('[data-header]').innerHTML=header();document.querySelector('[data-footer]').innerHTML=footer();document.querySelectorAll('[data-year]').forEach(x=>x.textContent=new Date().getFullYear());document.querySelectorAll('[data-wa]').forEach(x=>x.href=wa);const top=document.getElementById('topbar'),menu=document.getElementById('menu'),nav=document.getElementById('nav');const scroll=()=>top&&top.classList.toggle('scrolled',scrollY>18);scroll();addEventListener('scroll',scroll,{passive:true});menu?.addEventListener('click',()=>{const open=nav.classList.toggle('open');menu.setAttribute('aria-expanded',String(open));document.body.classList.toggle('nav-open',open)});document.querySelectorAll('[data-track]').forEach(x=>x.addEventListener('click',()=>track(x.dataset.track)));document.querySelectorAll('.nav a').forEach(a=>{try{if(new URL(a.href).pathname===location.pathname)a.setAttribute('aria-current','page')}catch{}});const reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;if(reduce)document.querySelectorAll('.reveal').forEach(x=>x.classList.add('in'));else{const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target)}}),{threshold:.12});document.querySelectorAll('.reveal').forEach(x=>io.observe(x));const nio=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){count(e.target);nio.unobserve(e.target)}}),{threshold:.5});document.querySelectorAll('[data-count]').forEach(x=>nio.observe(x))}setupForm()}
+function count(el){const end=+el.dataset.count,s=el.dataset.suffix||'',start=performance.now(),dur=850;function tick(t){const p=Math.min(1,(t-start)/dur),v=Math.round(end*(1-Math.pow(1-p,3)));el.textContent=v+s;if(p<1)requestAnimationFrame(tick)}requestAnimationFrame(tick)}
+function setupForm(){const form=document.getElementById('lead-form');if(!form)return;form.addEventListener('submit',async e=>{e.preventDefault();if(!form.reportValidity())return;const status=document.getElementById('form-status'),data=Object.fromEntries(new FormData(form));status.textContent='Sending your request…';try{const r=await fetch('/api/contact',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}),j=await r.json();if(!r.ok)throw new Error(j.message||'Unable to send');status.textContent='Thank you. Your request has been sent to MGI.';form.reset();track('lead_form_success')}catch{status.innerHTML=`Please email <a href="mailto:${MGI.email}">${MGI.email}</a> or <a href="${wa}" target="_blank" rel="noopener">message us on WhatsApp</a>.`;track('lead_form_fallback')}})}
+document.addEventListener('DOMContentLoaded',init);
